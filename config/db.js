@@ -1,20 +1,14 @@
-// backend/config/db.js
-
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(
-      "mongodb+srv://sabishree:Sabi5214@mycluster.g4uzbek.mongodb.net/user",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
+      "mongodb+srv://sabishree:Sabi5214@mycluster.g4uzbek.mongodb.net/user"
     );
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error(`Error: ${error.message}`);
-    process.exit(1); // Exit process with failure
+    console.error(`❌ MongoDB connection error: ${error.message}`);
+    process.exit(1);
   }
 };
 
