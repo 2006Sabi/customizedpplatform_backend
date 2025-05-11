@@ -2,13 +2,13 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 
 const registerUser = async (req, res) => {
-  let { name, email, phone, address, password, confirmPassword } = req.body;
+  let { name, email, phone, address, password, confirmpassword } = req.body;
 
   // Normalize email
   email = email.trim().toLowerCase();
 
   // Password match check
-  if (password !== confirmPassword) {
+  if (password !== confirmpassword) {
     return res.status(400).json({ message: "Passwords do not match" });
   }
 
