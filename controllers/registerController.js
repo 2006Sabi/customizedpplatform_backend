@@ -2,23 +2,27 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 
 const registerUser = async (req, res) => {
-  let { name, email, phone, address, password, confirmpassword } = req.body;
+  let { name, email, phone, address, password, confirmPassword } = req.body;
 
   // Normalize email
   email = email.trim().toLowerCase();
 
-  if (password !== confirmpassword) {
+  // Password match check
+  if (password !== confirmPassword) {
     return res.status(400).json({ message: "Passwords do not match" });
   }
 
   try {
+    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create new user
     const newUser = new User({
       name,
       email,
@@ -27,8 +31,10 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
+    // Save user to DB
     await newUser.save();
 
+    // Send success response
     res.status(201).json({
       message: "Registration successful",
       user: {
