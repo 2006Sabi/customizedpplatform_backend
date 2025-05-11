@@ -17,8 +17,16 @@ const PORT = process.env.PORT || 5000;
 // Connect DB
 connectDB();
 
+// CORS Configuration: Allow requests from localhost:5173 (React frontend)
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow only this origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    allowedHeaders: ["Content-Type"], // Allowed headers
+  })
+);
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 
 // Static folder to serve images
