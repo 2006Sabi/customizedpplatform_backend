@@ -9,7 +9,7 @@ const loginRoutes = require("./routes/loginRoutes");
 const forgotPasswordRoutes = require("./routes/forgotPasswordRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const userRoutes = require("./routes/userRoutes");
-// const uploadRoutes = require("./routes/uploadRoutes");
+const customizeRoutes = require("./routes/customizeRoute"); // ✅ NEW
 
 dotenv.config();
 const app = express();
@@ -21,16 +21,16 @@ connectDB();
 // CORS Configuration: Allow requests from localhost:5173 (React frontend)
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow only this origin
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
-    allowedHeaders: ["Content-Type"], // Allowed headers
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
   })
 );
 
 // Middleware
 app.use(express.json());
 
-// Static folder to serve images
+// Static folder to serve uploaded images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes
@@ -39,7 +39,8 @@ app.use("/api/login", loginRoutes);
 app.use("/api/forgot-password", forgotPasswordRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/user", userRoutes);
-// app.use("/api/upload", uploadRoutes);
+app.use("/api/customize", customizeRoutes); // ✅ NEW
+router.post("/", upload.single("image"), createCustomization);
 
 app.get("/", (req, res) => {
   res.send("✅ API is running...");

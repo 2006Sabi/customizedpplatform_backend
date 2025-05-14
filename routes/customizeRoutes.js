@@ -1,22 +1,17 @@
 const express = require("express");
+const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const { createCustomization } = require("../controllers/customizeController");
 
-const router = express.Router();
-
-// Image upload configuration
+// Image upload setup
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
 });
-
 const upload = multer({ storage });
 
+// POST route
 router.post("/customize", upload.single("image"), createCustomization);
 
 module.exports = router;
