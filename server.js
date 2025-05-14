@@ -10,6 +10,7 @@ const forgotPasswordRoutes = require("./routes/forgotPasswordRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const userRoutes = require("./routes/userRoutes");
 const customizeRoutes = require("./routes/customizeRoutes"); // ✅ NEW
+import customizationRoutes from "./routes/customizationRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -39,8 +40,8 @@ app.use("/api/login", loginRoutes);
 app.use("/api/forgot-password", forgotPasswordRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/customize", customizeRoutes); // ✅ NEW
-// router.post("/", upload.single("image"), createCustomization);
+app.use("/api/customize", customizeRoutes); 
+app.use("/api/customization", customizationRoutes);
 
 app.get("/", (req, res) => {
   res.send("✅ API is running...");
