@@ -8,6 +8,7 @@ const registerRoutes = require("./routes/registerRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 const forgotPasswordRoutes = require("./routes/forgotPasswordRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const userRoutes = require("./routes/userRoutes");
 // const uploadRoutes = require("./routes/uploadRoutes");
 
 dotenv.config();
@@ -37,6 +38,7 @@ app.use("/api/register", registerRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/forgot-password", forgotPasswordRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/user", userRoutes);
 // app.use("/api/upload", uploadRoutes);
 
 app.get("/", (req, res) => {
