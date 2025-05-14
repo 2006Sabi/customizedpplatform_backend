@@ -9,17 +9,19 @@ const loginRoutes = require("./routes/loginRoutes");
 const forgotPasswordRoutes = require("./routes/forgotPasswordRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const userRoutes = require("./routes/userRoutes");
-const customizeRoutes = require("./routes/customizeRoutes"); // ✅ NEW
-import customizationRoutes from "./routes/customizationRoutes.js";
+const customizeRoutes = require("./routes/customizeRoutes");
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect DB
+// Connect to MongoDB
 connectDB();
 
-// CORS Configuration: Allow requests from localhost:5173 (React frontend)
+// Middleware
+app.use(express.json());
+
+// CORS setup for React frontend
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -28,25 +30,23 @@ app.use(
   })
 );
 
-// Middleware
-app.use(express.json());
-
-// Static folder to serve uploaded images
+// Serve static files for uploaded images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Routes
+// API Routes
 app.use("/api/register", registerRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/forgot-password", forgotPasswordRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/customize", customizeRoutes); 
-app.use("/api/customization", customizationRoutes);
+app.use("/api/customize", customizeRoutes); // Combine both customize routes if duplicate
 
+// Root endpoint
 app.get("/", (req, res) => {
   res.send("✅ API is running...");
 });
 
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
